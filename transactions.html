@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions - Library Management System</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            background: #081b29;
+            color: white;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: #0ef;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #081b29;
+            font-weight: 600;
+        }
+
+        .transactions-container {
+            padding: 20px;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-bar input {
+            padding: 10px;
+            width: 300px;
+            border-radius: 5px;
+            border: 1px solid #0ef;
+            background: #0a2238;
+            color: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background: #0a2238;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #0ef;
+        }
+
+        th {
+            cursor: pointer;
+            background-color: #0ef;
+            color: #081b29;
+        }
+
+        tr:hover {
+            background-color: #0ef;
+            color: #081b29;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Library Management System</h1>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="books.html">Books</a></li>
+                <li><a href="users.html">Users</a></li>
+                <li><a href="transactions.html">Transactions</a></li>
+                <li><a href="login.html" id="login">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="transactions-container">
+        <div class="search-bar">
+            <input type="text" id="searchTransaction" placeholder="Search transactions...">
+        </div>
+        <table id="transactionsTable">
+            <thead>
+                <tr>
+                    <th onclick="sortTransactionTable(0)">Transaction ID</th>
+                    <th onclick="sortTransactionTable(1)">User</th>
+                    <th onclick="sortTransactionTable(2)">Book</th>
+                    <th onclick="sortTransactionTable(3)">Date Issued</th>
+                    <th onclick="sortTransactionTable(4)">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>101</td>
+                    <td>Alice Johnson</td>
+                    <td>The Great Gatsby</td>
+                    <td>2025-03-15</td>
+                    <td>Returned</td>
+                </tr>
+                <tr>
+                    <td>102</td>
+                    <td>Bob Smith</td>
+                    <td>1984</td>
+                    <td>2025-03-16</td>
+                    <td>Issued</td>
+                </tr>
+                <tr>
+                    <td>103</td>
+                    <td>Charlie Brown</td>
+                    <td>Moby Dick</td>
+                    <td>2025-03-10</td>
+                    <td>Returned</td>
+                </tr>
+                <tr>
+                    <td>104</td>
+                    <td>David Lee</td>
+                    <td>Hamlet</td>
+                    <td>2025-03-14</td>
+                    <td>Issued</td>
+                </tr>
+                <tr>
+                    <td>105</td>
+                    <td>Eve Adams</td>
+                    <td>To Kill a Mockingbird</td>
+                    <td>2025-03-12</td>
+                    <td>Returned</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Search Functionality
+        document.getElementById('searchTransaction').addEventListener('keyup', function() {
+            const filter = this.value.toUpperCase();
+            const rows = document.querySelectorAll('#transactionsTable tbody tr');
+
+            rows.forEach(row => {
+                const text = row.textContent.toUpperCase();
+                row.style.display = text.includes(filter) ? '' : 'none';
+            });
+        });
+
+        // Sort Functionality
+        function sortTransactionTable(columnIndex) {
+            const table = document.getElementById("transactionsTable");
+            const rows = Array.from(table.rows).slice(1);
+            const isAscending = table.getAttribute("data-sort") === "asc";
+            const direction = isAscending ? 1 : -1;
+
+            rows.sort((a, b) => {
+                const aText = a.cells[columnIndex].textContent.trim();
+                const bText = b.cells[columnIndex].textContent.trim();
+                
+                return aText > bText ? direction : -direction;
+            });
+
+            rows.forEach(row => table.querySelector("tbody").appendChild(row));
+            table.setAttribute("data-sort", isAscending ? "desc" : "asc");
+        }
+    </script>
+</body>
+</html>

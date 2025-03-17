@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users - Library Management System</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            background: #081b29;
+            color: white;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: #0ef;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #081b29;
+            font-weight: 600;
+        }
+
+        .users-container {
+            padding: 20px;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-bar input {
+            padding: 10px;
+            width: 300px;
+            border-radius: 5px;
+            border: 1px solid #0ef;
+            background: #0a2238;
+            color: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background: #0a2238;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #0ef;
+        }
+
+        th {
+            cursor: pointer;
+            background-color: #0ef;
+            color: #081b29;
+        }
+
+        tr:hover {
+            background-color: #0ef;
+            color: #081b29;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Library Management System</h1>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="books.html">Books</a></li>
+                <li><a href="users.html">Users</a></li>
+                <li><a href="transactions.html">Transactions</a></li>
+                <li><a href="login.html" id="login">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="users-container">
+        <div class="search-bar">
+            <input type="text" id="searchUser" placeholder="Search users...">
+        </div>
+        <table id="usersTable">
+            <thead>
+                <tr>
+                    <th onclick="sortUserTable(0)">User ID</th>
+                    <th onclick="sortUserTable(1)">Name</th>
+                    <th onclick="sortUserTable(2)">Email</th>
+                    <th onclick="sortUserTable(3)">Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Alice Johnson</td>
+                    <td>alice@example.com</td>
+                    <td>Admin</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Bob Smith</td>
+                    <td>bob@example.com</td>
+                    <td>User</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Charlie Brown</td>
+                    <td>charlie@example.com</td>
+                    <td>User</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>David Lee</td>
+                    <td>david@example.com</td>
+                    <td>Librarian</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Eve Adams</td>
+                    <td>eve@example.com</td>
+                    <td>User</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Search Functionality
+        document.getElementById('searchUser').addEventListener('keyup', function() {
+            const filter = this.value.toUpperCase();
+            const rows = document.querySelectorAll('#usersTable tbody tr');
+
+            rows.forEach(row => {
+                const text = row.textContent.toUpperCase();
+                row.style.display = text.includes(filter) ? '' : 'none';
+            });
+        });
+
+        // Sort Functionality
+        function sortUserTable(columnIndex) {
+            const table = document.getElementById("usersTable");
+            const rows = Array.from(table.rows).slice(1);
+            const isAscending = table.getAttribute("data-sort") === "asc";
+            const direction = isAscending ? 1 : -1;
+
+            rows.sort((a, b) => {
+                const aText = a.cells[columnIndex].textContent.trim();
+                const bText = b.cells[columnIndex].textContent.trim();
+                
+                return aText > bText ? direction : -direction;
+            });
+
+            rows.forEach(row => table.querySelector("tbody").appendChild(row));
+            table.setAttribute("data-sort", isAscending ? "desc" : "asc");
+        }
+    </script>
+</body>
+</html>
